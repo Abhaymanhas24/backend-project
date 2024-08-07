@@ -43,37 +43,44 @@ let Question = [
 let answer = [
   {
     question_number: 1,
-    question: "What is the capital of Japan?",
-    correct_option: "Tokyo",
+    correct_option: ["0"],
   },
   {
     question_number: 2,
-    question: "Which of the following are programming languages?",
-    correct_option: ["Python", "Java"],
+    correct_option: ["1", "2"],
   },
   {
     question_number: 3,
-    question: "What is the largest planet in our solar system?",
-    correct_option: "Jupiter",
+    correct_option: ["2"],
   },
   {
     question_number: 4,
-    question: "Select the primary colors:",
-    correct_option: ["Red", "Blue", "Yellow"],
+    correct_option: ["0", "2", "3"],
   },
   {
     question_number: 5,
-    question: "Which element has the chemical symbol 'O'?",
-    correct_options: ["Oxygen", "Gold", "Silver", "Hydrogen"],
+    correct_options: ["0", "1", "2", "3"],
   },
   {
     question_number: 6,
-    question: "Which of the following are continents?",
-    correct_option: ["Africa", "Europe", "Antarctica"],
+    correct_option: ["0", "2", "3"],
   },
 ];
 
-let useranswer = [];
+let useranswer = [
+  {
+    question_number: 1,
+    correct_options: ["0"],
+  },
+  {
+    question_number: 2,
+    correct_options: ["1", "2"],
+  },
+  {
+    question_number: 3,
+    correct_options: ["2"],
+  },
+];
 
 router.get("/", function (request, response) {
   //for  questions
@@ -86,19 +93,32 @@ router.post("/", function (request, response) {
   useranswer.push(data);
   response.send(data);
 });
-// router.get("/per", function (request,response){  //percentage of correct answer
-// const countCorrectAnswer=()=>{
-//   let coreectCount=0;
-// answer.forEach(coreectAnswer=>{
-//   const userAnswer=useranswer.find(item=>item.question_number===countCorrectAnswer.question_number)
-//   if(userAnswer){
-//     const correct
-//   }
-// })
-// }
+router.get("/per", function (request, response) {
+  //percentage of correct answer
+  const countCorrectAnswers = () => {
+    let correctCount = 0;
+    answer.forEach((correctAnswer) => {
+      const userAnswer = useranswer.find(
+        (item) => item.question_number === correctAnswer.question_number
+      );
+      if (userAnswer) {
+        if (
+          JSON.stringify(correctAnswer.correct_option.sort()) ===
+          JSON.stringify(userAnswer.correct_options.sort())
+        ) {
+          correctCount++;
+        }
+      }
+    });
+    return correctCount;
+  };
 
-//   }
-// }
-// });
+  const correctAnswerCount = countCorrectAnswers();
+  const percentage = (correctAnswerCount / answer.length) * 100;
+  response.send(percentage.toString());
+});
+// router.get("/result",function(request,response){   //correct question and answer
+
+// })
 
 export default router;
