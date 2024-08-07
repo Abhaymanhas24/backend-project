@@ -80,6 +80,9 @@ router.post("/add", function (request, response) {
   useranswer.push(data);
   response.send(data);
 });
+// router.get("/user", function (request, response) {
+//   response.send(useranswer);
+// });
 router.get("/per", function (request, response) {
   //percentage of correct answer
   const countCorrectAnswers = () => {
@@ -91,7 +94,7 @@ router.get("/per", function (request, response) {
       if (userAnswer) {
         if (
           JSON.stringify(correctAnswer.correct_option.sort()) ===
-          JSON.stringify(userAnswer.correct_options.sort())
+          JSON.stringify(userAnswer.idx.sort())
         ) {
           correctCount++;
         }
