@@ -67,20 +67,7 @@ let answer = [
   },
 ];
 
-let useranswer = [
-  {
-    question_number: 1,
-    correct_options: ["0"],
-  },
-  {
-    question_number: 2,
-    correct_options: ["1", "2"],
-  },
-  {
-    question_number: 3,
-    correct_options: ["2"],
-  },
-];
+let useranswer = [];
 
 router.get("/", function (request, response) {
   //for  questions
@@ -117,8 +104,8 @@ router.get("/per", function (request, response) {
   const percentage = (correctAnswerCount / answer.length) * 100;
   response.send(percentage.toString());
 });
-// router.get("/result",function(request,response){   //correct question and answer
-
-// })
+router.get("/result", function (request, response) {
+  //correct question and answer
+});
 
 export default router;
