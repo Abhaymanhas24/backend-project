@@ -73,7 +73,7 @@ router.get("/", function (request, response) {
   //for  questions
   response.send(Question);
 });
-router.post("/", function (request, response) {
+router.post("/add", function (request, response) {
   //submit the answer
   const data = request.body;
   console.log(data);
@@ -106,6 +106,16 @@ router.get("/per", function (request, response) {
 });
 router.get("/result", function (request, response) {
   //correct question and answer
+  let combined = Question.map((question) => {
+    let answerObj = answer.find(
+      (ans) => ans.question_number === question.question_number
+    );
+    return {
+      ...question,
+      ...answerObj,
+    };
+  });
+  response.send(combined);
 });
 
 export default router;
