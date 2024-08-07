@@ -59,7 +59,7 @@ let answer = [
   },
   {
     question_number: 5,
-    correct_options: ["0", "1", "2", "3"],
+    correct_option: ["0", "1", "2", "3"],
   },
   {
     question_number: 6,
