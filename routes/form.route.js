@@ -102,11 +102,9 @@ router.post("/add", function (request, response) {
     };
 
     const correctAnswerCount = countCorrectAnswers();
-    const percentage = ((correctAnswerCount / answer.length) * 100).toFixed(2);
+    const percentage = +((correctAnswerCount / answer.length) * 100).toFixed(2);
 
-    response
-      .status(200)
-      .send(JSON.stringify({ Percentage: `${percentage.toString()} %` }));
+    response.status(200).send({ percentage });
   } else {
     response.status(400).send({ error: "Invalid data" });
   }
