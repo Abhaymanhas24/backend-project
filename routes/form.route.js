@@ -67,7 +67,6 @@ let answer = [
     correct_option: ["0", "2", "3"],
   },
 ];
-// let x = []
 
 let useranswer = [];
 
@@ -81,7 +80,7 @@ router.post("/add", function (request, response) {
 
   if (data) {
     useranswer.push(...data);
-
+    // for checking percentage using userdata
     const countCorrectAnswers = () => {
       let correctCount = 0;
       answer.forEach((correctAnswer) => {
@@ -100,16 +99,30 @@ router.post("/add", function (request, response) {
 
       return correctCount;
     };
+    // for question and answer
+    const combined = Question.map((question) => {
+      let answerObj = answer.find(
+        (ans) => ans.question_number === question.question_number
+      );
+      let userAnswer = data.find(
+        (item) => item.question_number === question.question_number
+      );
+
+      return {
+        ...question,
+        correct_option: answerObj ? answerObj.correct_option : null,
+        user_answer: userAnswer ? userAnswer.idx : null,
+      };
+    });
 
     const correctAnswerCount = countCorrectAnswers();
     const percentage = +((correctAnswerCount / answer.length) * 100).toFixed(2);
 
-    response.status(200).send({ percentage });
+    response.status(200).send({ percentage, combined });
   } else {
     response.status(400).send({ error: "Invalid data" });
   }
 });
-
 router.get("/user", function (request, response) {
   response.send(useranswer);
 });
@@ -137,18 +150,18 @@ router.get("/user", function (request, response) {
 //   //   const percentage = (correctAnswerCount / answer.length) * 100;
 //   response.send(percentage.toString());
 // });
-router.get("/result", function (request, response) {
-  //correct question and answer
-  let combined = Question.map((question) => {
-    let answerObj = answer.find(
-      (ans) => ans.question_number === question.question_number
-    );
-    return {
-      ...question,
-      ...answerObj,
-    };
-  });
-  response.send(combined);
-});
+// router.get("/result", function (request, response) {
+//   //correct question and answer
+//   let combined = Question.map((question) => {
+//     let answerObj = answer.find(
+//       (ans) => ans.question_number === question.question_number
+//     );
+//     return {
+//       ...question,
+//       ...answerObj,
+//     };
+//   });
+//   response.send(combined);
+// });
 
 export default router;
