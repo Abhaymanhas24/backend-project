@@ -48,7 +48,7 @@ let answer = [
   },
   {
     question_number: 2,
-    correct_option: ["1", "2"],
+    correct_option: ["0", "2"],
   },
   {
     question_number: 3,
@@ -56,11 +56,11 @@ let answer = [
   },
   {
     question_number: 4,
-    correct_option: ["0", "2", "3"],
+    correct_option: ["0", "1", "2"],
   },
   {
     question_number: 5,
-    correct_option: ["0", "1", "2", "3"],
+    correct_option: ["0"],
   },
   {
     question_number: 6,
