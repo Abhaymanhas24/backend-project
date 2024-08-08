@@ -85,7 +85,7 @@ router.post("/add", function (request, response) {
     const countCorrectAnswers = () => {
       let correctCount = 0;
       answer.forEach((correctAnswer) => {
-        const userAnswer = useranswer.find(
+        const userAnswer = data.find(
           (item) => item.question_number === correctAnswer.question_number
         );
         if (userAnswer) {
@@ -104,7 +104,7 @@ router.post("/add", function (request, response) {
     const correctAnswerCount = countCorrectAnswers();
     const percentage = ((correctAnswerCount / answer.length) * 100).toFixed(2);
 
-    response.status(200).send(`Percentage : ${percentage.toString()} %`);
+    response.status(200).send(`{Percentage : ${percentage.toString()} %}`);
   } else {
     response.status(400).send({ error: "Invalid data" });
   }
@@ -114,27 +114,27 @@ router.get("/user", function (request, response) {
   response.send(useranswer);
 });
 // router.get("/per", function (request, response) {
-//   //percentage of correct answer
-//   const countCorrectAnswers = () => {
-//     let correctCount = 0;
-//     answer.forEach((correctAnswer) => {
-//       const userAnswer = useranswer.find(
-//         (item) => item.question_number === correctAnswer.question_number
-//       );
-//       if (userAnswer) {
-//         if (
-//           JSON.stringify(correctAnswer.correct_option.sort()) ===
-//           JSON.stringify(userAnswer.idx.sort())
-//         ) {
-//           correctCount++;
-//         }
-//       }
-//     });
-//     return correctCount;
-//   };
+//   //   //percentage of correct answer
+//   //   const countCorrectAnswers = () => {
+//   //     let correctCount = 0;
+//   //     answer.forEach((correctAnswer) => {
+//   //       const userAnswer = useranswer.find(
+//   //         (item) => item.question_number === correctAnswer.question_number
+//   //       );
+//   //       if (userAnswer) {
+//   //         if (
+//   //           JSON.stringify(correctAnswer.correct_option.sort()) ===
+//   //           JSON.stringify(userAnswer.idx.sort())
+//   //         ) {
+//   //           correctCount++;
+//   //         }
+//   //       }
+//   //     });
+//   //     return correctCount;
+//   //   };
 
-//   const correctAnswerCount = countCorrectAnswers();
-//   const percentage = (correctAnswerCount / answer.length) * 100;
+//   //   const correctAnswerCount = countCorrectAnswers();
+//   //   const percentage = (correctAnswerCount / answer.length) * 100;
 //   response.send(percentage.toString());
 // });
 router.get("/result", function (request, response) {
