@@ -80,7 +80,29 @@ router.post("/add", function (request, response) {
 
   if (data) {
     useranswer.push(data);
-    response.status(200).send(data);
+
+    const countCorrectAnswers = () => {
+      let correctCount = 0;
+      answer.forEach((correctAnswer) => {
+        const userAnswer = useranswer.find(
+          (item) => item.question_number === correctAnswer.question_number
+        );
+        if (userAnswer) {
+          if (
+            JSON.stringify(correctAnswer.correct_option.sort()) ===
+            JSON.stringify(userAnswer.idx.sort())
+          ) {
+            correctCount++;
+          }
+        }
+      });
+      return correctCount;
+    };
+
+    const correctAnswerCount = countCorrectAnswers();
+    const percentage = (correctAnswerCount / answer.length) * 100;
+    // response.send(percentage.toString());
+    response.status(200).send(percentage.toString());
   } else {
     response.status(400).send({ error: "Invalid data" });
   }
@@ -89,30 +111,30 @@ router.post("/add", function (request, response) {
 router.get("/user", function (request, response) {
   response.send(useranswer);
 });
-router.get("/per", function (request, response) {
-  //percentage of correct answer
-  const countCorrectAnswers = () => {
-    let correctCount = 0;
-    answer.forEach((correctAnswer) => {
-      const userAnswer = useranswer.find(
-        (item) => item.question_number === correctAnswer.question_number
-      );
-      if (userAnswer) {
-        if (
-          JSON.stringify(correctAnswer.correct_option.sort()) ===
-          JSON.stringify(userAnswer.idx.sort())
-        ) {
-          correctCount++;
-        }
-      }
-    });
-    return correctCount;
-  };
+// router.get("/per", function (request, response) {
+//   //percentage of correct answer
+//   const countCorrectAnswers = () => {
+//     let correctCount = 0;
+//     answer.forEach((correctAnswer) => {
+//       const userAnswer = useranswer.find(
+//         (item) => item.question_number === correctAnswer.question_number
+//       );
+//       if (userAnswer) {
+//         if (
+//           JSON.stringify(correctAnswer.correct_option.sort()) ===
+//           JSON.stringify(userAnswer.idx.sort())
+//         ) {
+//           correctCount++;
+//         }
+//       }
+//     });
+//     return correctCount;
+//   };
 
-  const correctAnswerCount = countCorrectAnswers();
-  const percentage = (correctAnswerCount / answer.length) * 100;
-  response.send(percentage.toString());
-});
+//   const correctAnswerCount = countCorrectAnswers();
+//   const percentage = (correctAnswerCount / answer.length) * 100;
+//   response.send(percentage.toString());
+// });
 router.get("/result", function (request, response) {
   //correct question and answer
   let combined = Question.map((question) => {
