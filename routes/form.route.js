@@ -67,6 +67,7 @@ let answer = [
     correct_option: ["0", "2", "3"],
   },
 ];
+// let x = []
 
 let useranswer = [];
 
@@ -79,7 +80,7 @@ router.post("/add", function (request, response) {
   console.log(data);
 
   if (data) {
-    useranswer.push(data);
+    useranswer.push(...data);
 
     const countCorrectAnswers = () => {
       let correctCount = 0;
@@ -96,13 +97,14 @@ router.post("/add", function (request, response) {
           }
         }
       });
+
       return correctCount;
     };
 
     const correctAnswerCount = countCorrectAnswers();
-    const percentage = (correctAnswerCount / answer.length) * 100;
-    // response.send(percentage.toString());
-    response.status(200).send(percentage.toString());
+    const percentage = ((correctAnswerCount / answer.length) * 100).toFixed(2);
+
+    response.status(200).send(`Percentage : ${percentage.toString()} %`);
   } else {
     response.status(400).send({ error: "Invalid data" });
   }
