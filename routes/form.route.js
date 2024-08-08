@@ -1,6 +1,7 @@
 import express from "express";
 // import { v4 } from "uuid";
 const router = express.Router();
+
 let Question = [
   {
     question_number: 1,
@@ -74,15 +75,20 @@ router.get("/", function (request, response) {
   response.send(Question);
 });
 router.post("/add", function (request, response) {
-  //submit the answer
   const data = request.body;
   console.log(data);
-  useranswer.push(data);
-  response.send(data);
+
+  if (data) {
+    useranswer.push(data);
+    response.status(200).send(data);
+  } else {
+    response.status(400).send({ error: "Invalid data" });
+  }
 });
-// router.get("/user", function (request, response) {
-//   response.send(useranswer);
-// });
+
+router.get("/user", function (request, response) {
+  response.send(useranswer);
+});
 router.get("/per", function (request, response) {
   //percentage of correct answer
   const countCorrectAnswers = () => {
